@@ -13,20 +13,27 @@ pygame.display.set_caption("Friend Fighting")
 clock = pygame.time.Clock()
 running = True
 
+# Draw the background
+def draw_background():
+    background = pygame.image.load("./assets/background_garage.jpg")
+    scaled = pygame.transform.scale(background, window_size)
+    screen.blit(scaled, (0, 0))
+
 # Create the player
 player = joueur.joueur(100, 100)
 
 # Game loop
 while running:
-
+    draw_background()
     player.draw(screen)
+    player.move(window_size=window_size)
 
     # Handle events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    pygame.display.update()
+    pygame.display.flip()
 
     # Limit the frame rate
     clock.tick(60)
