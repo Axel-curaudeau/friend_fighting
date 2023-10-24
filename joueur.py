@@ -17,6 +17,7 @@ class joueur:
         self.scaled_image = pygame.transform.scale(self.image, (self.width, self.height))
         self.is_jumping = False
         self.jump_speed = 20
+        self.is_flipped = False
     
     def draw(self, screen):
         screen.blit(self.scaled_image, (self.x, self.y))
@@ -25,8 +26,10 @@ class joueur:
         key = pygame.key.get_pressed()
         if key[pygame.K_d]:
             self.x_speed = 5
+            self.flip_image(False)
         if key[pygame.K_q]:
             self.x_speed = -5
+            self.flip_image(True)
         if key[pygame.K_z] and not(self.is_jumping):
             self.y_speed = -self.jump_speed
             self.is_jumping = True
@@ -62,5 +65,7 @@ class joueur:
     def gravity(self):
         self.y_speed += 1
         
-
-        
+    def flip_image(self, flip):
+            if self.is_flipped != flip:
+                self.scaled_image = pygame.transform.flip(self.scaled_image, True, False)
+                self.is_flipped = not(self.is_flipped)
