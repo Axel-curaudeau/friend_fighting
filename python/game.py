@@ -1,11 +1,12 @@
 import pygame
-import joueur
+import player
 import menu
+import fiktou
 
 class game:
 
     def __init__(self):
-        self.window_size = (800, 600)
+        self.window_size = (1280, 720)
         self.screen = pygame.display.set_mode(self.window_size)
         pygame.display.set_caption("Friend Fighting")
 
@@ -20,7 +21,8 @@ class game:
         self.menu = menu.main_menu(self.window_size)
 
         # Create the player
-        self.player = joueur.joueur(100, 100)
+        self.player_left = fiktou.Fiktou(100, 100)
+        self.player_right = player.player(100, 100)
 
     def run(self):
         while self.running:
@@ -28,8 +30,8 @@ class game:
                 self.menu.run(self.screen, self.window_size, self)
             elif self.status == "game":
                 self.draw_background(self.screen, self.window_size)
-                self.player.draw(self.screen)
-                self.player.move(self.window_size)
+                self.player_left.draw(self.screen)
+                self.player_left.move(self.window_size)
 
             # Handle events
             for event in pygame.event.get():

@@ -1,6 +1,6 @@
 import pygame
 
-class joueur:
+class player:
 
     def __init__(self, x, y):
         self.x = x
@@ -34,17 +34,18 @@ class joueur:
     def input(self):
         key = pygame.key.get_pressed()
         if key[pygame.K_d]:
-            self.x_speed = 5
+            self.x_speed = 10
             self.flip_image(False)
             self.animate(200)
         if key[pygame.K_q]:
-            self.x_speed = -5
+            self.x_speed = -10
             self.flip_image(True)
             self.animate(200)
         if key[pygame.K_z] and not(self.is_jumping):
             self.y_speed = -self.jump_speed
             self.is_jumping = True
-
+        if key[pygame.K_g]:
+            pass
     def border_collision(self, window_size):
         if (self.x < 0):
             self.x = 0
@@ -90,4 +91,4 @@ class joueur:
             self.scaled_image = self.walk_anim[self.walk_anim_step]
             if (self.is_flipped):
                 self.scaled_image = pygame.transform.flip(self.scaled_image, True, False)
-            
+
