@@ -1,7 +1,7 @@
 import pygame
-import player
 import menu
 import fiktou
+import louis
 
 class game:
 
@@ -22,7 +22,7 @@ class game:
 
         # Create the player
         self.player_left = fiktou.Fiktou(100, 100)
-        self.player_right = player.player(200, 100)
+        self.player_right = louis.Louis(200, 100)
 
     def run(self):
         while self.running:
