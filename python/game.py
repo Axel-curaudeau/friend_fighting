@@ -46,6 +46,8 @@ class game:
 
     def input(self):
         key = pygame.key.get_pressed()
+
+        # left player controls
         if key[pygame.K_d]:
             self.player_left.move_horizontal(10)
         if key[pygame.K_q]:
@@ -54,6 +56,17 @@ class game:
             self.player_left.move_vertical(-30)
         if key[pygame.K_g]:
             self.player_left.attack()
+
+        # right player controls
+        if key[pygame.K_RIGHT]:
+            self.player_right.move_horizontal(10)
+        if key[pygame.K_LEFT]:
+            self.player_right.move_horizontal(-10)
+        if key[pygame.K_UP]:
+            self.player_right.move_vertical(-30)
+        if key[pygame.K_0]:
+            self.player_right.attack()
+
         else:
             pass
 
