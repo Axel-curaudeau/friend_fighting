@@ -2,7 +2,7 @@ import pygame
 
 class player:
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, asset_path):
         # movement
         self.x = x
         self.y = y
@@ -19,9 +19,9 @@ class player:
         self.jump_speed = 30
 
         # image
-        self.image = pygame.image.load("./assets/brayan.png")
+        self.image = pygame.image.load(asset_path + "idle.png")
         self.scaled_image = pygame.transform.scale(self.image, (self.width, self.height))
-        self.anim_sheet = pygame.image.load("./assets/brayan_2.png")
+        self.anim_sheet = pygame.image.load(asset_path + "walk_anim.png")
         self.walk_anim = []
         self.walk_anim_step = 0
         self.walk_anim_update_time = pygame.time.get_ticks()

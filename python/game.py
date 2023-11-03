@@ -22,7 +22,7 @@ class game:
 
         # Create the player
         self.player_left = fiktou.Fiktou(100, 100)
-        self.player_right = louis.Louis(200, 100)
+        self.player_right = louis.Louis(self.window_size[0] - 300, 100)
 
     def run(self):
         while self.running:
@@ -64,7 +64,7 @@ class game:
             self.player_right.move_horizontal(-10)
         if key[pygame.K_UP]:
             self.player_right.move_vertical(-30)
-        if key[pygame.K_0]:
+        if key[pygame.K_RSHIFT]:
             self.player_right.attack()
 
         else:
