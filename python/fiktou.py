@@ -8,5 +8,5 @@ class Fiktou(player.player):
         
     
 
-    def attack(self):
+    def attack(self, screen):
         print("Fiktou attack")

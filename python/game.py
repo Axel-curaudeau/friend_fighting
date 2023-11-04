@@ -2,6 +2,7 @@ import pygame
 import menu
 import fiktou
 import louis
+import UI
 
 class game:
 
@@ -20,6 +21,9 @@ class game:
         #Create the menu
         self.menu = menu.main_menu(self.window_size)
 
+        # Create the UI
+        self.ui = UI.UI(self.window_size)
+
         # Create the player
         self.player_left = fiktou.Fiktou(100, 100)
         self.player_right = louis.Louis(self.window_size[0] - 300, 100)
@@ -29,8 +33,9 @@ class game:
             if self.status == "main_menu":
                 self.menu.run(self.screen, self.window_size, self)
             elif self.status == "game":
-                self.input()
                 self.draw_background(self.screen, self.window_size)
+                self.ui.draw(self.screen, self.player_left.health, self.player_right.health)
+                self.input()
                 self.player_left.update(self.window_size, self.screen)
                 self.player_right.update(self.window_size, self.screen)
 
@@ -55,7 +60,7 @@ class game:
         if key[pygame.K_z]:
             self.player_left.move_vertical(-30)
         if key[pygame.K_g]:
-            self.player_left.attack()
+            self.player_left.attack(self.screen)
 
         # right player controls
         if key[pygame.K_RIGHT]:
@@ -65,7 +70,7 @@ class game:
         if key[pygame.K_UP]:
             self.player_right.move_vertical(-30)
         if key[pygame.K_RSHIFT]:
-            self.player_right.attack()
+            self.player_right.attack(self.screen)
 
         else:
             pass
