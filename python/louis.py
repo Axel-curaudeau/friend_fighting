@@ -10,4 +10,3 @@ class Louis(player.player):
         attack_rect = pygame.Rect(self.x, self.y, 2 * self.width, self.height)
 
         pygame.draw.rect(screen, (255, 0, 0), attack_rect)
-        print("Louis attack")
