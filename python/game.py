@@ -10,9 +10,10 @@ class game:
         self.window_size = (1280, 720)
         self.screen = pygame.display.set_mode(self.window_size)
         pygame.display.set_caption("Friend Fighting")
-
-        # Set up the game loop
+        
+        # Create the clock
         self.clock = pygame.time.Clock()
+        
         self.running = True
         self.status = "main_menu"
 
@@ -24,20 +25,31 @@ class game:
         # Create the UI
         self.ui = UI.UI(self.window_size)
 
-        # Create the player
-        self.player_left = fiktou.Fiktou(100, 100)
-        self.player_right = louis.Louis(self.window_size[0] - 300, 100)
+       
 
     def run(self):
         while self.running:
+
             if self.status == "main_menu":
                 self.menu.run(self.screen, self.window_size, self)
+                 # Create the player
+                self.player_left = fiktou.Fiktou(100, 100)
+                self.player_right = louis.Louis(self.window_size[0] - 300, 100)
+                self.player_right.flip_image(True)
+
             elif self.status == "game":
                 self.draw_background(self.screen, self.window_size)
                 self.ui.draw(self.screen, self.player_left.health, self.player_right.health)
                 self.input()
                 self.player_left.update(self.window_size, self.screen)
                 self.player_right.update(self.window_size, self.screen)
+                if self.player_left.health <= 0:
+                    self.status = "main_menu"
+                if self.player_right.health <= 0:
+                    self.status = "main_menu"
+            
+            elif self.status == "End Screen":
+                pass
 
             # Handle events
             for event in pygame.event.get():
@@ -46,8 +58,8 @@ class game:
 
             pygame.display.flip()
 
-        # Limit the frame rate
-        self.clock.tick(60)
+            # Limit the frame rate
+            self.clock.tick(60)
 
     def input(self):
         key = pygame.key.get_pressed()
@@ -59,8 +71,6 @@ class game:
             self.player_left.move_horizontal(-10)
         if key[pygame.K_z]:
             self.player_left.move_vertical(-30)
-        if key[pygame.K_g]:
-            self.player_left.attack(self.screen)
 
         # right player controls
         if key[pygame.K_RIGHT]:
@@ -69,11 +79,17 @@ class game:
             self.player_right.move_horizontal(-10)
         if key[pygame.K_UP]:
             self.player_right.move_vertical(-30)
-        if key[pygame.K_RSHIFT]:
-            self.player_right.attack(self.screen)
 
         else:
             pass
+            
+        #get key down
+        event = pygame.event.poll()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_g:
+                self.player_left.attack(self.screen, self.player_right)
+            if event.key == pygame.K_RCTRL:
+                self.player_right.attack(self.screen, self.player_left)
 
 # Draw the background
     def draw_background(self, screen, window_size):

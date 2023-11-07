@@ -2,7 +2,9 @@ import pygame
 
 class player:
 
-    def __init__(self, x, y, asset_path):
+    def __init__(self, x, y, asset_path, name):
+        self.name = name
+
         # movement
         self.x = x
         self.y = y
@@ -17,6 +19,8 @@ class player:
         self.width = 200
         self.is_jumping = False
         self.jump_speed = 30
+        self.attack_width = 100
+        
 
         # image
         self.image = pygame.image.load(asset_path + "idle.png")
@@ -32,6 +36,8 @@ class player:
     
 
     def draw(self, screen):
+        self.hitbox = pygame.Rect(self.x, self.y, self.width, self.height)
+        #pygame.draw.rect(screen, (0, 0, 255), self.hitbox)
         screen.blit(self.scaled_image, (self.x, self.y))
     
     
@@ -100,3 +106,16 @@ class player:
             self.y_speed = y_speed
         if (self.y_speed < 0):
             self.is_jumping = True
+    
+    def get_hitbox(self):
+        return self.hitbox
+    
+    def attack(self, screen, enemy):
+        if (self.is_flipped):
+            attack_rect = pygame.Rect(self.x - self.attack_width, self.y, self.width + self.attack_width, self.height)
+        else:
+            attack_rect = pygame.Rect(self.x, self.y, self.width + self.attack_width, self.height)
+        if (attack_rect.colliderect(enemy.get_hitbox())):
+            enemy.health -= self.base_damage
+
+        #pygame.draw.rect(screen, (255, 0, 0), attack_rect)
