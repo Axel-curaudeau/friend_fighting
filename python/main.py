@@ -1,9 +1,9 @@
 import pygame
 import game
-import menu
 
 # Initialize Pygame
 pygame.init()
+pygame.font.init()
 
 game = game.game()
 game.run()

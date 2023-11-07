@@ -1,4 +1,5 @@
 import pygame
+from config import window_size
 
 class player:
 
@@ -61,7 +62,7 @@ class player:
             self.x_speed = 0
 
 
-    def update(self, window_size, screen):
+    def update(self, screen):
         self.draw(screen)
 
         self.x += self.x_speed
@@ -119,3 +120,15 @@ class player:
             enemy.health -= self.base_damage
 
         #pygame.draw.rect(screen, (255, 0, 0), attack_rect)
+
+    def reset(self, x, y):
+        self.health = 100
+        self.x = x
+        self.y = y
+        self.x_speed = 0
+        self.y_speed = 0
+        self.is_jumping = False
+        self.walk_anim_step = 0
+        self.walk_anim_update_time = pygame.time.get_ticks()
+        self.scaled_image = pygame.transform.scale(self.image, (self.width, self.height))
+        self.is_flipped = False

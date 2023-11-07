@@ -1,8 +1,9 @@
 import pygame
+from config import window_size
 
-class UI:
+class HUD:
 
-    def __init__(self, window_size):
+    def __init__(self):
         self.health_bar_width = 400
         self.health_bar_height = 20
         self.health_bar_x_offset = 10

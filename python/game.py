@@ -1,14 +1,16 @@
 import pygame
-import menu
+import end_screen
+import main_menu
 import fiktou
 import louis
-import UI
+import HUD
+import config
 
 class game:
 
     def __init__(self):
-        self.window_size = (1280, 720)
-        self.screen = pygame.display.set_mode(self.window_size)
+        #self.window_size = (1280, 720)
+        self.screen = pygame.display.set_mode(config.window_size)
         pygame.display.set_caption("Friend Fighting")
         
         # Create the clock
@@ -20,36 +22,39 @@ class game:
         print("Starting game...")
 
         #Create the menu
-        self.menu = menu.main_menu(self.window_size)
+        self.menu = main_menu.main_menu()
 
         # Create the UI
-        self.ui = UI.UI(self.window_size)
+        self.HUD = HUD.HUD()
 
-       
+        # Create the end screen
+        self.end_screen = end_screen.end_screen()
+
+         # Create the player
+        self.player_left = fiktou.Fiktou(100, 100)
+        self.player_right = louis.Louis(config.window_size[0] - 300, 100)
+        self.player_right.flip_image(True)
+
 
     def run(self):
         while self.running:
 
             if self.status == "main_menu":
-                self.menu.run(self.screen, self.window_size, self)
-                 # Create the player
-                self.player_left = fiktou.Fiktou(100, 100)
-                self.player_right = louis.Louis(self.window_size[0] - 300, 100)
-                self.player_right.flip_image(True)
+                self.menu.run(self.screen, self)
 
             elif self.status == "game":
-                self.draw_background(self.screen, self.window_size)
-                self.ui.draw(self.screen, self.player_left.health, self.player_right.health)
+                self.draw_background(self.screen)
                 self.input()
-                self.player_left.update(self.window_size, self.screen)
-                self.player_right.update(self.window_size, self.screen)
-                if self.player_left.health <= 0:
-                    self.status = "main_menu"
-                if self.player_right.health <= 0:
-                    self.status = "main_menu"
+                self.HUD.draw(self.screen, self.player_left.health, self.player_right.health)
+                self.player_left.update(self.screen)
+                self.player_right.update(self.screen)
+
+                # Check if the game is over
+                if self.player_left.health <= 0 or self.player_right.health <= 0:
+                    self.status = "end_screen"
             
-            elif self.status == "End Screen":
-                pass
+            elif self.status == "end_screen":
+                self.end_screen.run(self.player_left, self.player_right, self.screen, self)
 
             # Handle events
             for event in pygame.event.get():
@@ -92,7 +97,7 @@ class game:
                 self.player_right.attack(self.screen, self.player_left)
 
 # Draw the background
-    def draw_background(self, screen, window_size):
+    def draw_background(self, screen):
         background = pygame.image.load("./assets/background_garage.jpg")
-        scaled = pygame.transform.scale(background, window_size)
+        scaled = pygame.transform.scale(background, config.window_size)
         screen.blit(scaled, (0, 0))
