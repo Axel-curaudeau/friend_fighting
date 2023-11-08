@@ -62,9 +62,8 @@ class game:
                     self.running = False
 
             pygame.display.flip()
-
             # Limit the frame rate
-            self.clock.tick(60)
+            self.clock.tick(config.framerate)
 
     def input(self):
         key = pygame.key.get_pressed()
