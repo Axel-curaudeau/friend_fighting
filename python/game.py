@@ -5,6 +5,7 @@ import fiktou
 import louis
 import HUD
 import config
+import pause_menu
 
 class game:
 
@@ -26,6 +27,9 @@ class game:
 
         # Create the UI
         self.HUD = HUD.HUD()
+
+        # Create the pause menu
+        self.pause_menu = pause_menu.pause_menu()
 
         # Create the end screen
         self.end_screen = end_screen.end_screen()
@@ -52,6 +56,9 @@ class game:
                 # Check if the game is over
                 if self.player_left.health <= 0 or self.player_right.health <= 0:
                     self.status = "end_screen"
+            
+            elif self.status == "pause_menu":
+                self.pause_menu.run(self.screen, self)
             
             elif self.status == "end_screen":
                 self.end_screen.run(self.player_left, self.player_right, self.screen, self)
@@ -94,6 +101,8 @@ class game:
                 self.player_left.attack(self.screen, self.player_right)
             if event.key == pygame.K_RCTRL:
                 self.player_right.attack(self.screen, self.player_left)
+            if event.key == pygame.K_ESCAPE:
+                self.status = "pause_menu"
 
 # Draw the background
     def draw_background(self, screen):

@@ -41,9 +41,10 @@ class main_menu:
 
         #get mouse position and react
         mouse_pos = pygame.mouse.get_pos()
+        event = pygame.event.poll()
         if (pygame.rect.Rect((self.play_button_coord, self.button_size)).collidepoint(mouse_pos)):
             self.play_button_color = self.hover_button_color
-            if pygame.mouse.get_pressed()[0]:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 game.player_left.reset(100, 100)
                 game.player_right.reset(window_size[0] - 300, 100)
                 game.status = "game"
@@ -52,14 +53,14 @@ class main_menu:
         
         if (pygame.rect.Rect((self.settings_button_coord, self.button_size)).collidepoint(mouse_pos)):
             self.settings_button_color = self.hover_button_color
-            if (pygame.mouse.get_pressed()[0]):
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 print('settings')
         else:
             self.settings_button_color = self.base_button_color
         
         if (self.quit_button_rect.collidepoint(mouse_pos)):
             self.quit_button_color = self.hover_button_color
-            if (pygame.mouse.get_pressed()[0]):
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 game.running = False
         else:
             self.quit_button_color = self.base_button_color
