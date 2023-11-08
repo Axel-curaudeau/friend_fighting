@@ -98,9 +98,9 @@ class game:
         event = pygame.event.poll()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_g:
-                self.player_left.attack(self.screen, self.player_right)
+                self.player_left.attack(self.player_right)
             if event.key == pygame.K_RCTRL:
-                self.player_right.attack(self.screen, self.player_left)
+                self.player_right.attack(self.player_left)
             if event.key == pygame.K_ESCAPE:
                 self.status = "pause_menu"
 

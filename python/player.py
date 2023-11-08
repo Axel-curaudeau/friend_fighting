@@ -11,7 +11,7 @@ class player:
         self.y = y
         self.x_speed = 0
         self.y_speed = 0
-        self.x_drag = 2
+        self.x_drag = 2.5
 
         # stats
         self.health = 100
@@ -54,12 +54,13 @@ class player:
 
 
     def horizontal_drag(self):
-        if (self.x_speed > 0):
-            self.x_speed -= self.x_drag
-        if (self.x_speed < 0):
-            self.x_speed += self.x_drag
-        if (self.x_speed < self.x_drag and self.x_speed > -self.x_drag):
-            self.x_speed = 0
+        if (self.y == window_size[1] - self.height):
+            if (self.x_speed > 0):
+                self.x_speed -= self.x_drag
+            if (self.x_speed < 0):
+                self.x_speed += self.x_drag
+            if (self.x_speed < self.x_drag and self.x_speed > -self.x_drag):
+                self.x_speed = 0
 
 
     def update(self, screen):
@@ -111,13 +112,15 @@ class player:
     def get_hitbox(self):
         return self.hitbox
     
-    def attack(self, screen, enemy):
+    def attack(self, enemy):
         if (self.is_flipped):
             attack_rect = pygame.Rect(self.x - self.attack_width, self.y, self.width + self.attack_width, self.height)
         else:
             attack_rect = pygame.Rect(self.x, self.y, self.width + self.attack_width, self.height)
         if (attack_rect.colliderect(enemy.get_hitbox())):
             enemy.health -= self.base_damage
+            enemy.x_speed = 20 * (-1 if self.is_flipped else 1)
+            enemy.y_speed = -30
 
         #pygame.draw.rect(screen, (255, 0, 0), attack_rect)
 
