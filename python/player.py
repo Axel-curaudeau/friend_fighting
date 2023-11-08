@@ -12,6 +12,7 @@ class player:
         self.x_speed = 0
         self.y_speed = 0
         self.x_drag = 2.5
+        self.is_pushed = False
 
         # stats
         self.health = 100
@@ -49,18 +50,20 @@ class player:
             self.x = window_size[0] - self.width
         if (self.y > window_size[1] - self.height):
             self.y_speed = 0
+            self.is_pushed = False
             self.y = window_size[1] - self.height
             self.is_jumping = False
 
 
     def horizontal_drag(self):
-        if (self.y == window_size[1] - self.height):
-            if (self.x_speed > 0):
-                self.x_speed -= self.x_drag
-            if (self.x_speed < 0):
-                self.x_speed += self.x_drag
-            if (self.x_speed < self.x_drag and self.x_speed > -self.x_drag):
-                self.x_speed = 0
+        if (self.is_pushed):
+            return
+        if (self.x_speed > 0):
+            self.x_speed -= self.x_drag
+        if (self.x_speed < 0):
+            self.x_speed += self.x_drag
+        if (self.x_speed < self.x_drag and self.x_speed > -self.x_drag):
+            self.x_speed = 0
 
 
     def update(self, screen):
@@ -96,7 +99,10 @@ class player:
 
 
     def move_horizontal(self, x_speed):
-        self.x_speed = x_speed
+        if (self.is_pushed and self.x_speed < x_speed):
+            self.x_speed += x_speed/10
+        else:
+            self.x_speed = x_speed
         self.animate(200)
         if (self.x_speed > 0):
             self.flip_image(False)
@@ -113,6 +119,8 @@ class player:
         return self.hitbox
     
     def attack(self, enemy):
+        if (self.is_pushed):
+            return
         if (self.is_flipped):
             attack_rect = pygame.Rect(self.x - self.attack_width, self.y, self.width + self.attack_width, self.height)
         else:
@@ -121,6 +129,7 @@ class player:
             enemy.health -= self.base_damage
             enemy.x_speed = 20 * (-1 if self.is_flipped else 1)
             enemy.y_speed = -30
+            enemy.is_pushed = True
 
         #pygame.draw.rect(screen, (255, 0, 0), attack_rect)
 

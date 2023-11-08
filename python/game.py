@@ -10,8 +10,10 @@ import pause_menu
 class game:
 
     def __init__(self):
-        #self.window_size = (1280, 720)
-        self.screen = pygame.display.set_mode(config.window_size)
+        if (config.fullscreen):
+            self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        else:
+            self.screen = pygame.display.set_mode(config.window_size)
         pygame.display.set_caption("Friend Fighting")
         
         # Create the clock
