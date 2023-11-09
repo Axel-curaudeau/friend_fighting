@@ -22,7 +22,7 @@ class game:
         self.running = True
         self.status = "main_menu"
 
-        print("Starting game...")
+        self.background = pygame.image.load("./assets/background_garage.jpg").convert_alpha()
 
         #Create the menu
         self.menu = main_menu.main_menu()
@@ -108,6 +108,5 @@ class game:
 
 # Draw the background
     def draw_background(self, screen):
-        background = pygame.image.load("./assets/background_garage.jpg")
-        scaled = pygame.transform.scale(background, config.window_size)
+        scaled = pygame.transform.scale(self.background, config.window_size)
         screen.blit(scaled, (0, 0))

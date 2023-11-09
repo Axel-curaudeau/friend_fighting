@@ -25,9 +25,9 @@ class player:
         
 
         # image
-        self.image = pygame.image.load(asset_path + "idle.png")
+        self.image = pygame.image.load(asset_path + "idle.png").convert_alpha()
         self.scaled_image = pygame.transform.scale(self.image, (self.width, self.height))
-        self.anim_sheet = pygame.image.load(asset_path + "walk_anim.png")
+        self.anim_sheet = pygame.image.load(asset_path + "walk_anim.png").convert_alpha()
         self.walk_anim = []
         self.walk_anim_step = 0
         self.walk_anim_update_time = pygame.time.get_ticks()
